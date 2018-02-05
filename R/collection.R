@@ -1,4 +1,4 @@
-get_discogs_collection <- function(user_name, access_token=discogs_token()) {
+get_discogs_collection <- function(user_name, sep_format_descs=TRUE, access_token=discogs_token()) {
 
   # set base URL
   base_url <- "https://api.discogs.com//users/"
@@ -21,14 +21,11 @@ get_discogs_collection <- function(user_name, access_token=discogs_token()) {
   # get no. of pages
   pages <- res[['pagination']][['pages']]
 
-  # allocate list of same length as pages
-  collection <- vector("list", pages)
-
-  #loop through collection pages and bind to dataframe
-  for(i in 1:length(collection)) {
+  # loop through collection pages and bind to dataframe
+  collection <- lapply(1:pages, function(x) {
 
     # request given page of user collection
-    data <- httr::GET(paste0(req_url, "?page=", i))
+    data <- httr::GET(paste0(req_url, "?page=", x))
 
     # extract request content
     data <- httr::content(data)
@@ -53,30 +50,50 @@ get_discogs_collection <- function(user_name, access_token=discogs_token()) {
         label_id = labs[['id']],
         format_name = formats[['name']],
         format_descriptions = list(format_descs),
-        # format_description_one = ifelse("descriptions1" %in% names(formats),
-        #                                 formats[['descriptions1']],
-        #                                 ifelse(formats[['descriptions']] %in% names(formats),
-        #                                        formats[['descriptions']], NA)),
-        # format_description_two = ifelse("descriptions2" %in% names(formats),
-        #                                 formats[['descriptions2']], NA),
-        # format_description_three = ifelse("descriptions3" %in% names(formats),
-        #                                   formats[['descriptions3']], NA),
         artist_name = artists[['name']],
         artist_id = artists[['id']],
-        cover_image <- info$cover_image,
-        release_year <- info$year
+        cover_image = info$cover_image,
+        release_year = info$year
       )
+
     })
 
-    # update user on progress
-    message("Retrieving page ", i)
+    })
 
-    collection[[i]] <- release_info
+  # bind dfs of collection
+  collection_df <- do.call("rbind", collection)
+
+  # separating format description list
+  if (isTRUE(sep_format_descs)) {
+
+    # find max format description length, fill NAs if less
+    track_descs <- sapply(collection_df$format_descriptions, "length<-",
+                          max(lengths(collection_df$format_descriptions)))
+
+    # check no. track format description fields
+    lengths <- lapply(track_descs, length)
+
+    # ID max length
+    longest <- max(unlist(lengths))
+
+    # replace null items with NA
+    track_descs <- lapply(track_descs, function(x) if(is.null(x)) NA else x)
+
+    # turn track descs into df w/ incrementing col suffixes
+    track_descs <- setNames(do.call(rbind.data.frame, track_descs),
+                            paste("format_description", 1:longest, sep = "_"))
+
+    # bind cols to collection
+    collection_df <- cbind(collection_df, track_descs)
+
+    # remove original format col
+    collection_df <- subset(collection_df, select = -format_descriptions)
+
   }
 
-  foo <- dplyr::bind_rows(collection)
+  # do nothing if user wants to preserve current format descs
+  else NULL
 
-  bar <- unlist(data$releases[[1]]$basic_information$labels)
-
+  return(collection_df)
 
 }
