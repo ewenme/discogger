@@ -10,7 +10,7 @@
 #' @return atomic character vector containing the Discogs API token
 #'
 #' @export
-discogs_token <- function(force = FALSE) {
+discogs_api_token <- function(force = FALSE) {
 
   env <- Sys.getenv('DISCOGS_API_TOKEN')
   if (!identical(env, "") && !force) return(env)
