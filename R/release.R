@@ -15,13 +15,17 @@ get_discogs_release <- function(release_id, access_token=discogs_api_token()) {
   # URL ---------------------------------------
 
   # base API users URL
-  base_url <- "https://api.discogs.com/releases/"
+  url <- paste0("https://api.discogs.com/releases/", release_id)
 
   # API ----------------------------------------------
 
   # request API for user collection
-  req <- httr::GET(url = paste0(base_url, release_id))
+  req <- httr::GET(url = url)
 
+  # break if release doesnt exist
+  httr::stop_for_status(req)
+
+  # extract request content
   data <- httr::content(req)
 
   # DATA ----------------------------------------------

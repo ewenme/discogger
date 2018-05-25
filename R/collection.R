@@ -16,23 +16,16 @@ get_discogs_collection <- function(user_name, folder_id=0, access_token=discogs_
 
   # URL ---------------------------------------
 
-  # base API users URL
-  base_url <- "https://api.discogs.com//users/"
-
-  # rest of URL for collections
-  tail_url <- paste0("/collection/folders/", folder_id, "/releases?sort=added&sort_order=desc")
-
-  # user name
-  user <- user_name
-
-  # construct user collection request URL
-  req_url <- paste0(base_url, user, tail_url)
+  # API URL
+  url <- paste0("https://api.discogs.com//users/", user_name,
+                "/collection/folders/", folder_id,
+                "/releases?sort=added&sort_order=desc")
 
 
   # API ----------------------------------------------
 
   # request API for user collection
-  req <- httr::GET(url = paste0(req_url))
+  req <- httr::GET(url = url)
 
   # break if user doesnt exist
   httr::stop_for_status(req)
