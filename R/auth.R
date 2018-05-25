@@ -4,8 +4,11 @@
 #' residing in the environment variable \code{DISCOGS_API_TOKEN}. The
 #' easiest way to accomplish this is to set it in the `\code{.Renviron}` file in your
 #' home directory.
+#'
 #' @param force force setting a new Discogs API token for the current environment?
+#'
 #' @return atomic character vector containing the Discogs API token
+#'
 #' @export
 discogs_token <- function(force = FALSE) {
 
