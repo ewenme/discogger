@@ -1,99 +1,88 @@
-get_discogs_collection <- function(user_name, sep_format_descs=TRUE, access_token=discogs_token()) {
+get_discogs_collection <- function(user_name, access_token=discogs_token()) {
 
-  # set base URL
+  # URL ---------------------------------------
+
+  # base API users URL
   base_url <- "https://api.discogs.com//users/"
 
-  # set tail of URL
+  # rest of URL for collections
   tail_url <- "/collection/folders/0/releases"
 
-  # set user name
-  user <- "sunshine-recorder"
+  # user name
+  user <- user_name
 
   # construct user collection request URL
   req_url <- paste0(base_url, user, tail_url)
 
+
+  # API ----------------------------------------------
+
   # request API for user collection
-  req <- httr::GET(url = req_url)
+  req <- httr::GET(url = paste0(req_url))
+
+  # break if user doesnt exist
+  httr::stop_for_status(req)
 
   # extract request content
-  res <- httr::content(req)
+  data <- httr::content(req)
 
-  # get no. of pages
-  pages <- res[['pagination']][['pages']]
+  # how many collection pages?
+  pages <- data$pagination$pages
 
-  # loop through collection pages and bind to dataframe
-  collection <- lapply(1:pages, function(x) {
 
-    # request given page of user collection
-    data <- httr::GET(paste0(req_url, "?page=", x))
+  # ITERATION -----------------------------------
+
+  # iterate through pages of collection
+  collection <- purrr::map_dfr(seq_len(pages), function(x){
+
+    # request collection page
+    req <- httr::GET(url = paste0(req_url, "?page=", x))
+
+    # break if user doesnt exist
+    httr::stop_for_status(req)
 
     # extract request content
-    data <- httr::content(data)
+    data <- httr::content(req)
 
-    # extract track info from returned results
+    # iterate through pages releases
     release_info <- purrr::map_df(1:length(data$releases), function(x) {
-      tmp <- data$releases[[x]]
-      info <- data$releases[[x]]$basic_information
-      labs <- unlist(data$releases[[x]]$basic_information$labels)
-      artists <- unlist(data$releases[[x]]$basic_information$artists)
-      formats <- unlist(data$releases[[x]]$basic_information$formats)
-      format_descs <- unlist(data$releases[[x]]$basic_information$formats[[1]]$descriptions)
 
+      # top level fields
+      release <- data[["releases"]][[x]]
+
+      # basic info fields
+      info <- data[["releases"]][[x]]$basic_information
+
+      # label fields
+      labs <- unlist(data[["releases"]][[x]]$basic_information$labels)
+
+      # artist fields
+      artists <- unlist(data[["releases"]][[x]]$basic_information$artists)
+
+      # format fields
+      formats <- unlist(data[["releases"]][[x]]$basic_information$formats)
+
+      # format description fields
+      format_descs <- unlist(data[["releases"]][[x]]$basic_information$formats[[1]]$descriptions)
+
+      # create list of fields to keep
       list(
-        instance_id = tmp$instance_id,
-        date_added = tmp$date_added,
-        release_id = tmp$id,
-        rating = tmp$rating,
+        instance_id = release$instance_id,
+        date_added = release$date_added,
+        release_id = release$id,
+        rating = release$rating,
         release_title = info$title,
+        cover_image = info$cover_image,
+        release_year = info$year,
+        artist_name = artists[['name']],
+        artist_id = artists[['id']],
         label_name = labs[['name']],
         label_cat_no = labs[['catno']],
         label_id = labs[['id']],
         format_name = formats[['name']],
-        format_descriptions = list(format_descs),
-        artist_name = artists[['name']],
-        artist_id = artists[['id']],
-        cover_image = info$cover_image,
-        release_year = info$year
+        format_qty = formats[['qty']],
+        format_descriptions = list(format_descs)
       )
-
     })
-
-    })
-
-  # bind dfs of collection
-  collection_df <- do.call("rbind", collection)
-
-  # separating format description list
-  if (isTRUE(sep_format_descs)) {
-
-    # find max format description length, fill NAs if less
-    track_descs <- sapply(collection_df$format_descriptions, "length<-",
-                          max(lengths(collection_df$format_descriptions)))
-
-    # check no. track format description fields
-    lengths <- lapply(track_descs, length)
-
-    # ID max length
-    longest <- max(unlist(lengths))
-
-    # replace null items with NA
-    track_descs <- lapply(track_descs, function(x) if(is.null(x)) NA else x)
-
-    # turn track descs into df w/ incrementing col suffixes
-    track_descs <- setNames(do.call(rbind.data.frame, track_descs),
-                            paste("format_description", 1:longest, sep = "_"))
-
-    # bind cols to collection
-    collection_df <- cbind(collection_df, track_descs)
-
-    # remove original format col
-    collection_df <- subset(collection_df, select = -format_descriptions)
-
-  }
-
-  # do nothing if user wants to preserve current format descs
-  else NULL
-
-  return(collection_df)
-
+  })
 }
