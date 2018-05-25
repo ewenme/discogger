@@ -11,7 +11,7 @@ Install
 Development version
 
 ``` r
-devtools::install_github('ewenme/discogr')
+devtools::install_github('ewenme/discogger')
 ```
 
 Authenticate

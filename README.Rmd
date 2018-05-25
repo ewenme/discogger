@@ -20,7 +20,7 @@ Tools for working with the [Discogs](https://www.discogs.com) API in R.
 Development version
 
 ```{r install_dev, eval=FALSE}
-devtools::install_github('ewenme/discogr')
+devtools::install_github('ewenme/discogger')
 ```
 
 ## Authenticate
