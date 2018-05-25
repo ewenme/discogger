@@ -7,10 +7,12 @@
 #' @param folder_id The ID of the collection folder (default value is 0,
 #' the “All” folder).
 #'
+#' @param access_token Discogs personal access token, defaults to \code{discogs_api_token}.
+#'
 #' @return a tibble
 #'
 #' @export
-get_discogs_collection <- function(user_name, folder_id=0, access_token=discogs_token()) {
+get_discogs_collection <- function(user_name, folder_id=0, access_token=discogs_api_token()) {
 
   # URL ---------------------------------------
 
