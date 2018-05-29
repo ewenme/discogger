@@ -1,10 +1,10 @@
-#' Get metadata for a user's Discogs collection
+#' Get metadata for a user's Discogs Collection
 #'
 #' Return tidy metadata for releases in a user's Discogs collection.
 #'
-#' @param user_name The username of the collection you are trying to request.
+#' @param user_name The username of the Collection you are trying to request.
 #'
-#' @param folder_id The ID of the collection folder (default value is 0,
+#' @param folder_id The ID of the Collection folder (default value is 0,
 #' the “All” folder).
 #'
 #' @param access_token Discogs personal access token, defaults to \code{discogs_api_token}.
@@ -12,7 +12,7 @@
 #' @return a tibble
 #'
 #' @export
-get_discogs_collection <- function(user_name, folder_id=0, access_token=discogs_api_token()) {
+get_discogs_user_collection <- function(user_name, folder_id=0, access_token=discogs_api_token()) {
 
   # URL ---------------------------------------
 

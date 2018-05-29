@@ -2,12 +2,17 @@
 % Please edit documentation in R/release.R
 \name{get_discogs_release}
 \alias{get_discogs_release}
-\title{Get metadata for a Discogs release}
+\title{Get metadata for a Discogs Release}
 \usage{
-get_discogs_release(release_id, access_token = discogs_api_token())
+get_discogs_release(release_id, mkt_currency = c("GBP", "USD", "EUR", "CAD",
+  "AUD", "JPY", "CHF", "MXN", "BRL", "NZD", "SEK", "ZAR"),
+  access_token = discogs_api_token())
 }
 \arguments{
-\item{release_id}{The ID of the release.}
+\item{release_id}{The ID of the Release.}
+
+\item{mkt_currency}{Currency for marketplace data. Defaults to GBP (must be one of:
+"GBP", "USD", "EUR", "CAD", "AUD", "JPY", "CHF", "MXN", "BRL", "NZD", "SEK", "ZAR").}
 
 \item{access_token}{Discogs personal access token, defaults to \code{discogs_api_token}.}
 }
@@ -15,6 +20,6 @@ get_discogs_release(release_id, access_token = discogs_api_token())
 a tibble
 }
 \description{
-Return tidy metadata for a release (a particular physical or digital object
+Return tidy metadata for a Release (a particular physical or digital object
 released by one or more Artists) listed on Discogs.
 }

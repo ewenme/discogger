@@ -1,31 +1,26 @@
-#' Get metadata for a Discogs Artist's Releases
+#' Get metadata for a Discogs Label's Releases
 #'
-#' Return tidy metadata for an Artist's (a person who contributed
-#' to a Release, in some capacity) Releases listed on Discogs.
+#' Return tidy metadata for a Label's (a label, company, recording studio, location,
+#' or other entity involved with Artists and Releases) Releases listed on Discogs.
 #'
-#' @param artist_id The ID of the Artist.
+#' @param label_id The ID of the Label.
 #'
 #' @param access_token Discogs personal access token, defaults to \code{discogs_api_token}.
 #'
 #' @return a tibble
 #'
 #' @export
-get_discogs_artist_releases <- function(artist_id, access_token=discogs_api_token()) {
-
-  # URL ---------------------------------------
-
-  # artist_id = 1564482
+get_discogs_label_releases <- function(label_id, access_token=discogs_api_token()) {
 
   # base API users URL
-  url <- paste0("https://api.discogs.com/artists/", artist_id, "/releases?")
-
+  url <- paste0("https://api.discogs.com/labels/", label_id, "/releases?")
 
   # API ----------------------------------------------
 
   # request API for user collection
   req <- httr::GET(url = url)
 
-  # break if artist doesnt exist
+  # break if release doesnt exist
   httr::stop_for_status(req)
 
   # extract request content
@@ -38,12 +33,12 @@ get_discogs_artist_releases <- function(artist_id, access_token=discogs_api_toke
   # ITERATION -----------------------------------
 
   # iterate through pages
-  artist_discogs <- purrr::map_dfr(seq_len(pages), function(x){
+  label_discogs <- purrr::map_dfr(seq_len(pages), function(x){
 
-    # request artist page
+    # request label page
     req <- httr::GET(url = paste0(url, "page=", x))
 
-    # break if artist doesnt exist
+    # break if label doesnt exist
     httr::stop_for_status(req)
 
     # extract request content
@@ -57,15 +52,12 @@ get_discogs_artist_releases <- function(artist_id, access_token=discogs_api_toke
                                   release_status=status,
                                   release_format=format,
                                   release_title=title,
-                                  label_name=label,
-                                  artist_role=role,
+                                  label_cat_no=catno,
                                   release_year=year,
                                   artist_name=artist,
-                                  release_type=type,
-                                  release_id=id,
-                                  release_main_id=main_release)
-    })
+                                  release_id=id)
+  })
 
-  return(tibble::as_tibble(artist_discogs))
+  return(tibble::as_tibble(label_discogs))
 
-}
+  }

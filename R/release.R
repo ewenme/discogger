@@ -1,21 +1,31 @@
-#' Get metadata for a Discogs release
+#' Get metadata for a Discogs Release
 #'
-#' Return tidy metadata for a release (a particular physical or digital object
+#' Return tidy metadata for a Release (a particular physical or digital object
 #' released by one or more Artists) listed on Discogs.
 #'
-#' @param release_id The ID of the release.
+#' @param release_id The ID of the Release.
+#'
+#' @param mkt_currency Currency for marketplace data. Defaults to GBP (must be one of:
+#'  "GBP", "USD", "EUR", "CAD", "AUD", "JPY", "CHF", "MXN", "BRL", "NZD", "SEK", "ZAR").
 #'
 #' @param access_token Discogs personal access token, defaults to \code{discogs_api_token}.
 #'
 #' @return a tibble
 #'
 #' @export
-get_discogs_release <- function(release_id, access_token=discogs_api_token()) {
+get_discogs_release <- function(release_id,
+                                mkt_currency=c("GBP", "USD", "EUR", "CAD", "AUD",
+                                               "JPY", "CHF", "MXN", "BRL", "NZD",
+                                               "SEK", "ZAR"),
+                                access_token=discogs_api_token()) {
+
+  # evaluate currency choice
+  currency <- match.arg(mkt_currency)
 
   # URL ---------------------------------------
 
   # base API users URL
-  url <- paste0("https://api.discogs.com/releases/", release_id)
+  url <- paste0("https://api.discogs.com/releases/", release_id, "?curr_abbr=", currency)
 
   # API ----------------------------------------------
 
@@ -87,6 +97,6 @@ get_discogs_release <- function(release_id, access_token=discogs_api_token()) {
                                 "community_have", "community_want",
                                 "format_qty"), as.numeric)
 
-  return(release)
+  return(tibble::as_tibble(release))
 
   }
