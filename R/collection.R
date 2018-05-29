@@ -17,7 +17,7 @@ get_discogs_user_collection <- function(user_name, folder_id=0, access_token=dis
   # URL ---------------------------------------
 
   # API URL
-  url <- paste0("https://api.discogs.com//users/", user_name,
+  url <- paste0("https://api.discogs.com/users/", user_name,
                 "/collection/folders/", folder_id,
                 "/releases?sort=added&sort_order=desc")
 
