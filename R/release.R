@@ -79,6 +79,14 @@ get_discogs_release <- function(release_id, access_token=discogs_api_token()) {
     format_descriptions = list(format_descs)
     )
 
+  # fix numeric fields
+  release <- dplyr::mutate_at(release,
+                              c("artist_id", "label_id",
+                                "community_rating_count",
+                                "community_rating_avg",
+                                "community_have", "community_want",
+                                "format_qty"), as.numeric)
+
   return(release)
 
   }

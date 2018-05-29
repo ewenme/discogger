@@ -75,9 +75,9 @@ get_discogs_collection <- function(user_name, folder_id=0, access_token=discogs_
       # create list of fields to keep
       list(
         instance_id = release$instance_id,
-        date_added = release$date_added,
+        instance_date_added = release$date_added,
+        instance_rating = release$rating,
         release_id = release$id,
-        rating = release$rating,
         release_title = info$title,
         release_year = info$year,
         artist_name = artists[['name']],
@@ -91,6 +91,12 @@ get_discogs_collection <- function(user_name, folder_id=0, access_token=discogs_
       )
     })
   })
+
+  # get dates to correct format
+  collection$instance_date_added <- lubridate::ymd_hms(collection$instance_date_added)
+
+  # replace zero ratings (not real zero) with NA
+  collection$instance_rating[collection$instance_rating == 0] <- NA
 
   return(tibble::as_tibble(collection))
 
