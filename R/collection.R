@@ -43,7 +43,7 @@ get_discogs_collection <- function(user_name, folder_id=0, access_token=discogs_
   collection <- purrr::map_dfr(seq_len(pages), function(x){
 
     # request collection page
-    req <- httr::GET(url = paste0(req_url, "&page=", x))
+    req <- httr::GET(url = paste0(url, "&page=", x))
 
     # break if user doesnt exist
     httr::stop_for_status(req)
