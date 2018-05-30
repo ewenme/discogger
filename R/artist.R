@@ -115,6 +115,10 @@ get_discogs_artist_releases <- function(artist_id, access_token=discogs_api_toke
                                   release_main_id=main_release)
     })
 
+  # add artist id
+  artist_discogs <- dplyr::mutate(artist_discogs,
+                                  artist_id=artist_id)
+
   return(tibble::as_tibble(artist_discogs))
 
 }

@@ -25,7 +25,7 @@ get_discogs_release <- function(release_id,
   # URL ---------------------------------------
 
   # base API users URL
-  url <- paste0("https://api.discogs.com/releases/", release_id, "?curr_abbr=", currency)
+  url <- paste0("https://api.discogs.com/releases/", 240007)
 
   # API ----------------------------------------------
 
@@ -47,19 +47,19 @@ get_discogs_release <- function(release_id,
   community <- unlist(data[["community"]])
 
   # style fields
-  style <- unlist(data[["styles"]])
+  style <- data[["styles"]]
 
   # genre fields
-  genre <- unlist(data[["genres"]])
+  genre <- data[["genres"]]
 
   # labels fields
   labels <- unlist(data[["labels"]])
 
   # formats
-  formats <- unlist(data[["formats"]][[1]])
+  formats <- data[["formats"]]
 
   # format descriptions
-  format_descs <- unlist(data[["formats"]][[1]][["descriptions"]])
+  # format_descs <- data[["formats"]][["descriptions"]]
 
   # create df of fields to keep
   release <- tibble::tibble(
@@ -84,9 +84,9 @@ get_discogs_release <- function(release_id,
     community_rating_avg = community[['rating.average']],
     community_have = community[['have']],
     community_want = community[['want']],
-    format_name = formats[['name']],
-    format_qty = formats[['qty']],
-    format_descriptions = list(format_descs)
+    # format_name = formats[['name']],
+    # format_qty = formats[['qty']],
+    release_format = list(formats)
     )
 
   # fix numeric fields

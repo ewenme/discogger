@@ -1,3 +1,52 @@
+#' Get metadata for a Discogs Label
+#'
+#' Return tidy metadata for a Label (a label, company, recording studio, location,
+#' or other entity involved with Artists and Releases) listed on Discogs.
+#'
+#' @param label_id The ID of the Label.
+#'
+#' @param access_token Discogs personal access token, defaults to \code{discogs_api_token}.
+#'
+#' @return a tibble
+#'
+#' @export
+get_discogs_label <- function(label_id, access_token=discogs_api_token()) {
+
+  # URL ---------------------------------------
+
+  # base API users URL
+  url <- paste0("https://api.discogs.com/labels/", label_id)
+
+
+  # API ----------------------------------------------
+
+  # request API for user collection
+  req <- httr::GET(url = url)
+
+  # break if artist doesnt exist
+  httr::stop_for_status(req)
+
+  # extract request content
+  data <- httr::content(req)
+
+
+  # DATA ----------------------------------------------
+
+  # put artist fields into df format
+  label <- tibble::tibble(
+    label_profile = data$profile,
+    label_name = data$name,
+    label_id = data$id,
+    label_contact_info = data$contact_info,
+    labels_sublabels = list(data$sublabels),
+    label_data_quality = data$data_quality
+    )
+
+  return(label)
+
+}
+
+
 #' Get metadata for a Discogs Label's Releases
 #'
 #' Return tidy metadata for a Label's (a label, company, recording studio, location,
@@ -57,6 +106,10 @@ get_discogs_label_releases <- function(label_id, access_token=discogs_api_token(
                                   artist_name=artist,
                                   release_id=id)
   })
+
+  # add label id
+  label_discogs <- dplyr::mutate(label_discogs,
+                                 label_id=label_id)
 
   return(tibble::as_tibble(label_discogs))
 
