@@ -1,3 +1,54 @@
+#' Get metadata for a Discogs Artist
+#'
+#' Return tidy metadata for an Artist (a person who contributed
+#' to a Release, in some capacity) listed on Discogs.
+#'
+#' @param artist_id The ID of the Artist.
+#'
+#' @param access_token Discogs personal access token, defaults to \code{discogs_api_token}.
+#'
+#' @return a tibble
+#'
+#' @export
+get_discogs_artist <- function(artist_id, access_token=discogs_api_token()) {
+
+  # URL ---------------------------------------
+
+  # base API users URL
+  url <- paste0("https://api.discogs.com/artists/", artist_id)
+
+
+  # API ----------------------------------------------
+
+  # request API for user collection
+  req <- httr::GET(url = url)
+
+  # break if artist doesnt exist
+  httr::stop_for_status(req)
+
+  # extract request content
+  data <- httr::content(req)
+
+
+  # DATA ----------------------------------------------
+
+  # put artist fields into df format
+  artist <- tibble::tibble(
+    artist_profile = data$profile,
+    artist_name = data$name,
+    artist_id = data$id,
+    artist_name_variations = data$namevariations,
+    artist_urls = list(data$urls),
+    artist_aliases = data$aliases,
+    artist_data_quality = data$data_quality,
+    artist_real_name = data$realname
+  )
+
+  return(artist)
+
+}
+
+
 #' Get metadata for a Discogs Artist's Releases
 #'
 #' Return tidy metadata for an Artist's (a person who contributed
@@ -13,8 +64,6 @@
 get_discogs_artist_releases <- function(artist_id, access_token=discogs_api_token()) {
 
   # URL ---------------------------------------
-
-  # artist_id = 1564482
 
   # base API users URL
   url <- paste0("https://api.discogs.com/artists/", artist_id, "/releases?")
