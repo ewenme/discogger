@@ -118,7 +118,7 @@ discogs_label_releases <- function(label_id, access_token=discogs_api_token()) {
   label_discogs <- purrr::map_dfr(seq_len(pages), function(x){
 
     # request label page
-    req <- httr::GET(url = paste0(url, "page=", 1))
+    req <- httr::GET(url = paste0(url, "page=", x))
 
     # break if artist doesnt exist
     httr::stop_for_status(req)
