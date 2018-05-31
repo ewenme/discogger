@@ -5,9 +5,7 @@ output: github_document
 
 ```{r, echo = FALSE}
 knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>",
-  fig.path = "README-"
+  message = FALSE, warning = FALSE
 )
 ```
 
@@ -32,6 +30,24 @@ devtools::install_github('ewenme/discogger')
 3. Set your credentials in the System Environment variable `DISCOGS_API_TOKEN` by calling the `discogs_api_token()` function and entering your Discogs application personal access token when prompted.
 
 ## Use
+
+```{r}
+library(discogger)
+library(tidyverse)
+```
+
+### Who released the most Dance Mania records?
+
+```{r}
+# get dance mania records listed on discogs
+dm_recs <- discogs_label_releases(label_id = 314)
+
+dm_recs$content %>%
+  group_by(artist) %>%
+  summarise(n_releases = n_distinct(catno)) %>%
+  arrange(desc(n_releases)) %>%
+  top_n(10)
+```
 
 ## Contribute
 
