@@ -1,54 +1,67 @@
 #' Get metadata for a Discogs Label
 #'
-#' Return tidy metadata for a Label (a label, company, recording studio, location,
+#' Return metadata for a Label (a label, company, recording studio, location,
 #' or other entity involved with Artists and Releases) listed on Discogs.
 #'
 #' @param label_id The ID of the Label.
 #'
 #' @param access_token Discogs personal access token, defaults to \code{discogs_api_token}.
 #'
-#' @return a tibble
+#' @return a \code{discogs_label} object that contains the extracted content from the request,
+#' the original JSON response object and the request path.
 #'
 #' @export
-get_discogs_label <- function(label_id, access_token=discogs_api_token()) {
+#' @examples \dontrun{
+#' discogs_label(label_id = 314)
+#' }
+discogs_label <- function(label_id, access_token=discogs_api_token()) {
 
   # check for internet
   check_internet()
 
-  # URL ---------------------------------------
+  # API REQUEST ---------------------------------------
+
+  # create path
+  path <- paste0("labels/", label_id)
 
   # base API users URL
-  url <- paste0(base_url, "labels/", label_id)
-
-
-  # API ----------------------------------------------
+  url <- httr::modify_url(base_url, path = path)
 
   # request API for user collection
   req <- httr::GET(url = url)
 
   # break if artist doesnt exist
-  httr::stop_for_status(req)
+  check_status(req)
+
+  # break if object isnt json
+  check_type(req)
+
+
+  # EXTRACT DATA ---------------------------------------
 
   # extract request content
-  data <- httr::content(req)
+  # data <- httr::content(req)
+  data <- jsonlite::fromJSON(httr::content(req, "text", encoding = "UTF-8"),
+                             simplifyVector = FALSE)
 
-
-  # DATA ----------------------------------------------
-
-  # put artist fields into df format
-  label <- tibble::tibble(
-    label_profile = data$profile,
-    label_name = data$name,
-    label_id = data$id,
-    label_contact_info = data$contact_info,
-    labels_sublabels = list(data$sublabels),
-    label_data_quality = data$data_quality
-    )
-
-  return(label)
-
+  # create s3 object
+  structure(
+    list(
+      content = data,
+      path = path,
+      response = req
+    ),
+    class = "discogs_label"
+  )
 }
 
+print.discogs_label <- function(x, ...) {
+
+  cat("<Discogs ", x$path, ">\n", sep = "")
+  str(x$content)
+  invisible(x)
+
+}
 
 #' Get metadata for a Discogs Label's Releases
 #'
@@ -59,18 +72,25 @@ get_discogs_label <- function(label_id, access_token=discogs_api_token()) {
 #'
 #' @param access_token Discogs personal access token, defaults to \code{discogs_api_token}.
 #'
-#' @return a tibble
+#' @return a \code{discogs_label_releases} object that contains the extracted content from the request,
+#' the original JSON response object and the request path.
 #'
 #' @export
-get_discogs_label_releases <- function(label_id, access_token=discogs_api_token()) {
+#' @examples \dontrun{
+#' discogs_label_releases(label_id = 314)
+#' }
+discogs_label_releases <- function(label_id, access_token=discogs_api_token()) {
 
   # check for internet
   check_internet()
 
-  # base API users URL
-  url <- paste0(base_url, "labels/", label_id, "/releases?")
+  # API REQUEST ----------------------------------------------
 
-  # API ----------------------------------------------
+  # create path
+  path <- paste0("labels/", label_id, "/releases?")
+
+  # base API users URL
+  url <- httr::modify_url(base_url, path = path)
 
   # request API for user collection
   req <- httr::GET(url = url)
@@ -78,8 +98,15 @@ get_discogs_label_releases <- function(label_id, access_token=discogs_api_token(
   # break if release doesnt exist
   check_status(req)
 
+  # break if object isnt json
+  check_type(req)
+
+
+  # EXTRACT DATA --------------------------------------
+
   # extract request content
-  data <- httr::content(req)
+  data <- jsonlite::fromJSON(httr::content(req, "text", encoding = "UTF-8"),
+                             simplifyVector = FALSE)
 
   # how many pages?
   pages <- data$pagination$pages
@@ -91,32 +118,41 @@ get_discogs_label_releases <- function(label_id, access_token=discogs_api_token(
   label_discogs <- purrr::map_dfr(seq_len(pages), function(x){
 
     # request label page
-    req <- httr::GET(url = paste0(url, "page=", x))
+    req <- httr::GET(url = paste0(url, "page=", 1))
 
-    # break if label doesnt exist
-    check_status(req)
+    # break if artist doesnt exist
+    httr::stop_for_status(req)
+
+    # break if object isnt json
+    check_type(req)
 
     # extract request content
-    data <- httr::content(req)
+    data <- jsonlite::fromJSON(httr::content(req, "text", encoding = "UTF-8"),
+                               simplifyVector = FALSE)
 
     # bind releases
     release_info <- dplyr::bind_rows(data$releases)
 
-    # sleect/rename fields
-    release_info <- dplyr::select(release_info,
-                                  release_status=status,
-                                  release_format=format,
-                                  release_title=title,
-                                  label_cat_no=catno,
-                                  release_year=year,
-                                  artist_name=artist,
-                                  release_id=id)
   })
 
-  # add label id
-  label_discogs <- dplyr::mutate(label_discogs,
-                                 label_id=label_id)
+  # add artist id
+  label_discogs$label_id <- label_id
 
-  return(tibble::as_tibble(label_discogs))
+  # create s3 object
+  structure(
+    list(
+      content = label_discogs,
+      path = path,
+      response = req
+    ),
+    class = "discogs_label_releases"
+  )
+}
 
-  }
+print.discogs_label_releases <- function(x, ...) {
+
+  cat("<Discogs ", x$path, ">\n", sep = "")
+  str(x$content)
+  invisible(x)
+
+}

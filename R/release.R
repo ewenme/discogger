@@ -1,6 +1,6 @@
 #' Get metadata for a Discogs Release
 #'
-#' Return tidy metadata for a Release (a particular physical or digital object
+#' Return metadata for a Release (a particular physical or digital object
 #' released by one or more Artists) listed on Discogs.
 #'
 #' @param release_id The ID of the Release.
@@ -14,6 +14,9 @@
 #' the original JSON response object and the request path.
 #'
 #' @export
+#' @examples \dontrun{
+#' discogs_release(release_id = 240007)
+#' }
 discogs_release <- function(release_id, mkt_currency=c("GBP", "USD", "EUR", "CAD", "AUD",
                                                        "JPY", "CHF", "MXN", "BRL", "NZD",
                                                        "SEK", "ZAR"),
