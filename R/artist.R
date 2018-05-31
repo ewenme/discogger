@@ -12,10 +12,13 @@
 #' @export
 get_discogs_artist <- function(artist_id, access_token=discogs_api_token()) {
 
+  # check for internet
+  check_internet()
+
   # URL ---------------------------------------
 
   # base API users URL
-  url <- paste0("https://api.discogs.com/artists/", artist_id)
+  url <- paste0(base_url, "artists/", artist_id)
 
 
   # API ----------------------------------------------
@@ -24,7 +27,7 @@ get_discogs_artist <- function(artist_id, access_token=discogs_api_token()) {
   req <- httr::GET(url = url)
 
   # break if artist doesnt exist
-  httr::stop_for_status(req)
+  check_status(req)
 
   # extract request content
   data <- httr::content(req)
@@ -63,10 +66,13 @@ get_discogs_artist <- function(artist_id, access_token=discogs_api_token()) {
 #' @export
 get_discogs_artist_releases <- function(artist_id, access_token=discogs_api_token()) {
 
+  # check for internet
+  check_internet()
+
   # URL ---------------------------------------
 
   # base API users URL
-  url <- paste0("https://api.discogs.com/artists/", artist_id, "/releases?")
+  url <- paste0(base_url, "artists/", artist_id, "/releases?")
 
 
   # API ----------------------------------------------
@@ -75,7 +81,7 @@ get_discogs_artist_releases <- function(artist_id, access_token=discogs_api_toke
   req <- httr::GET(url = url)
 
   # break if artist doesnt exist
-  httr::stop_for_status(req)
+  check_status(req)
 
   # extract request content
   data <- httr::content(req)

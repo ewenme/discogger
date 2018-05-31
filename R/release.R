@@ -10,93 +10,60 @@
 #'
 #' @param access_token Discogs personal access token, defaults to \code{discogs_api_token}.
 #'
-#' @return a tibble
+#' @return a \code{discogs_release} object that contains the extracted content from the request,
+#' the original JSON response object and the request path.
 #'
 #' @export
-get_discogs_release <- function(release_id,
-                                mkt_currency=c("GBP", "USD", "EUR", "CAD", "AUD",
-                                               "JPY", "CHF", "MXN", "BRL", "NZD",
-                                               "SEK", "ZAR"),
-                                access_token=discogs_api_token()) {
+discogs_release <- function(release_id, mkt_currency=c("GBP", "USD", "EUR", "CAD", "AUD",
+                                                       "JPY", "CHF", "MXN", "BRL", "NZD",
+                                                       "SEK", "ZAR"),
+                            access_token=discogs_api_token()) {
 
   # evaluate currency choice
   currency <- match.arg(mkt_currency)
 
-  # URL ---------------------------------------
+  # check for internet
+  check_internet()
+
+
+  # API REQUEST ---------------------------------------
+
+  # create path
+  path <- paste0("releases/", release_id)
 
   # base API users URL
-  url <- paste0("https://api.discogs.com/releases/", 240007)
-
-  # API ----------------------------------------------
+  url <- httr::modify_url(base_url, path = path)
 
   # request API for user collection
   req <- httr::GET(url = url)
 
   # break if release doesnt exist
-  httr::stop_for_status(req)
+  check_status(req)
+
+  # break if object isnt json
+  check_type(req)
+
+
+  # EXTRACT DATA --------------------------------------
 
   # extract request content
-  data <- httr::content(req)
+  data <- jsonlite::fromJSON(httr::content(req, "text"), simplifyVector = FALSE)
 
-  # DATA ----------------------------------------------
+  # create s3 object
+  structure(
+    list(
+      content = data,
+      path = path,
+      response = req
+    ),
+    class = "discogs_release"
+  )
+}
 
-  # artist fields
-  artist <- unlist(data[["artists"]])
+print.discogs_release <- function(x, ...) {
 
-  # community fields
-  community <- unlist(data[["community"]])
-
-  # style fields
-  style <- data[["styles"]]
-
-  # genre fields
-  genre <- data[["genres"]]
-
-  # labels fields
-  labels <- unlist(data[["labels"]])
-
-  # formats
-  formats <- data[["formats"]]
-
-  # format descriptions
-  # format_descs <- data[["formats"]][["descriptions"]]
-
-  # create df of fields to keep
-  release <- tibble::tibble(
-    release_id = data$id,
-    release_master_id = data$master_id,
-    release_title = data$title,
-    release_year = data$year,
-    release_country = data$country,
-    release_styles = list(style),
-    release_genres = list(genre),
-    release_notes = data$notes,
-    release_num_for_sale = data$num_for_sale,
-    release_lowest_price = data$lowest_price,
-    release_weight = data$estimated_weight,
-    # release_extra_artists = data[["extraartists"]],
-    artist_id = artist[['id']],
-    artist_name = artist[['name']],
-    label_id = labels[['id']],
-    label_name = labels[['name']],
-    label_cat_no = labels[['catno']],
-    community_rating_count = community[['rating.count']],
-    community_rating_avg = community[['rating.average']],
-    community_have = community[['have']],
-    community_want = community[['want']],
-    # format_name = formats[['name']],
-    # format_qty = formats[['qty']],
-    release_format = list(formats)
-    )
-
-  # fix numeric fields
-  release <- dplyr::mutate_at(release,
-                              c("artist_id", "label_id",
-                                "community_rating_count",
-                                "community_rating_avg",
-                                "community_have", "community_want",
-                                "format_qty"), as.numeric)
-
-  return(tibble::as_tibble(release))
+  cat("<Discogs ", x$path, ">\n", sep = "")
+  str(x$content)
+  invisible(x)
 
   }

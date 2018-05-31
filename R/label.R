@@ -12,10 +12,13 @@
 #' @export
 get_discogs_label <- function(label_id, access_token=discogs_api_token()) {
 
+  # check for internet
+  check_internet()
+
   # URL ---------------------------------------
 
   # base API users URL
-  url <- paste0("https://api.discogs.com/labels/", label_id)
+  url <- paste0(base_url, "labels/", label_id)
 
 
   # API ----------------------------------------------
@@ -61,8 +64,11 @@ get_discogs_label <- function(label_id, access_token=discogs_api_token()) {
 #' @export
 get_discogs_label_releases <- function(label_id, access_token=discogs_api_token()) {
 
+  # check for internet
+  check_internet()
+
   # base API users URL
-  url <- paste0("https://api.discogs.com/labels/", label_id, "/releases?")
+  url <- paste0(base_url, "labels/", label_id, "/releases?")
 
   # API ----------------------------------------------
 
@@ -70,7 +76,7 @@ get_discogs_label_releases <- function(label_id, access_token=discogs_api_token(
   req <- httr::GET(url = url)
 
   # break if release doesnt exist
-  httr::stop_for_status(req)
+  check_status(req)
 
   # extract request content
   data <- httr::content(req)
@@ -88,7 +94,7 @@ get_discogs_label_releases <- function(label_id, access_token=discogs_api_token(
     req <- httr::GET(url = paste0(url, "page=", x))
 
     # break if label doesnt exist
-    httr::stop_for_status(req)
+    check_status(req)
 
     # extract request content
     data <- httr::content(req)

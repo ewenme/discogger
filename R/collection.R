@@ -14,10 +14,13 @@
 #' @export
 get_discogs_user_collection <- function(user_name, folder_id=0, access_token=discogs_api_token()) {
 
+  # check for internet
+  check_internet()
+
   # URL ---------------------------------------
 
   # API URL
-  url <- paste0("https://api.discogs.com/users/", user_name,
+  url <- paste0(base_url, "users/", user_name,
                 "/collection/folders/", folder_id,
                 "/releases?sort=added&sort_order=desc")
 
@@ -28,7 +31,7 @@ get_discogs_user_collection <- function(user_name, folder_id=0, access_token=dis
   req <- httr::GET(url = url)
 
   # break if user doesnt exist
-  httr::stop_for_status(req)
+  check_status(req)
 
   # extract request content
   data <- httr::content(req)
@@ -46,7 +49,7 @@ get_discogs_user_collection <- function(user_name, folder_id=0, access_token=dis
     req <- httr::GET(url = paste0(url, "&page=", x))
 
     # break if user doesnt exist
-    httr::stop_for_status(req)
+    check_status(req)
 
     # extract request content
     data <- httr::content(req)
