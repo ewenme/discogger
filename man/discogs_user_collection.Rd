@@ -2,7 +2,7 @@
 % Please edit documentation in R/collection.R
 \name{discogs_user_collection}
 \alias{discogs_user_collection}
-\title{Get metadata for a user's Discogs Collection}
+\title{Get metadata for a Discogs User Collection}
 \usage{
 discogs_user_collection(user_name, folder_id = 0,
   access_token = discogs_api_token())
@@ -20,7 +20,7 @@ a \code{discogs_user_collection} object that contains the extracted content from
 the original JSON response object and the request path.
 }
 \description{
-Return metadata for releases in a user's Discogs collection.
+Return metadata for releases in a Discogs User Collection.
 }
 \examples{
 \dontrun{

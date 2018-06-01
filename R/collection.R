@@ -1,6 +1,6 @@
-#' Get metadata for a user's Discogs Collection
+#' Get metadata for a Discogs User Collection
 #'
-#' Return metadata for releases in a user's Discogs collection.
+#' Return metadata for releases in a Discogs User Collection.
 #'
 #' @param user_name The username of the Collection you are trying to request.
 #'
