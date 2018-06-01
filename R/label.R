@@ -27,8 +27,10 @@ discogs_label <- function(label_id, access_token=discogs_api_token()) {
   # base API users URL
   url <- httr::modify_url(base_url, path = path)
 
-  # request API for user collection
-  req <- httr::GET(url = url)
+  # request API for label
+  req <- httr::GET(url = url, ua,
+                   httr::add_headers(Authorization=paste0("Discogs token=", access_token))
+                   )
 
   # break if artist doesnt exist
   check_status(req)
@@ -40,7 +42,6 @@ discogs_label <- function(label_id, access_token=discogs_api_token()) {
   # EXTRACT DATA ---------------------------------------
 
   # extract request content
-  # data <- httr::content(req)
   data <- jsonlite::fromJSON(httr::content(req, "text", encoding = "UTF-8"),
                              simplifyVector = FALSE)
 
@@ -92,8 +93,10 @@ discogs_label_releases <- function(label_id, access_token=discogs_api_token()) {
   # base API users URL
   url <- httr::modify_url(base_url, path = path)
 
-  # request API for user collection
-  req <- httr::GET(url = url)
+  # request API for label releases
+  req <- httr::GET(url = url, ua,
+                   httr::add_headers(Authorization=paste0("Discogs token=", access_token))
+  )
 
   # break if release doesnt exist
   check_status(req)
@@ -118,7 +121,9 @@ discogs_label_releases <- function(label_id, access_token=discogs_api_token()) {
   label_discogs <- purrr::map_dfr(seq_len(pages), function(x){
 
     # request label page
-    req <- httr::GET(url = paste0(url, "page=", x))
+    req <- httr::GET(url = paste0(url, "page=", x), ua,
+                     httr::add_headers(Authorization=paste0("Discogs token=", access_token))
+                     )
 
     # break if artist doesnt exist
     httr::stop_for_status(req)

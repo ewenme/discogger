@@ -91,8 +91,10 @@ discogs_artist_releases <- function(artist_id, access_token=discogs_api_token())
   # base API users URL
   url <- httr::modify_url(base_url, path = path)
 
-  # request API for user collection
-  req <- httr::GET(url = url)
+  # request API for artist
+  req <- httr::GET(url = url, ua,
+                   httr::add_headers(Authorization=paste0("Discogs token=", access_token))
+                   )
 
   # break if artist doesnt exist
   check_status(req)
@@ -114,7 +116,9 @@ discogs_artist_releases <- function(artist_id, access_token=discogs_api_token())
   artist_discogs <- purrr::map_dfr(seq_len(pages), function(x){
 
     # request artist page
-    req <- httr::GET(url = paste0(url, "page=", x))
+    req <- httr::GET(url = paste0(url, "page=", x), ua,
+                     httr::add_headers(Authorization=paste0("Discogs token=", access_token))
+                     )
 
     # break if artist doesnt exist
     httr::stop_for_status(req)
