@@ -52,7 +52,8 @@ discogs_release <- function(release_id, mkt_currency=c("GBP", "USD", "EUR", "CAD
   # EXTRACT DATA --------------------------------------
 
   # extract request content
-  data <- jsonlite::fromJSON(httr::content(req, "text"), simplifyVector = FALSE)
+  data <- jsonlite::fromJSON(httr::content(req, "text", encoding = "UTF-8"),
+                             simplifyVector = FALSE)
 
   # create s3 object
   structure(
