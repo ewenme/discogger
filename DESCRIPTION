@@ -5,14 +5,14 @@ Authors@R: person("Ewen", "Henderson", email = "ewenhenderson@gmail.com", role =
 Description: Provides tools to interact with the 'Discogs' API <https://www.discogs.com/developers/#>.
 License: MIT + file LICENSE
 Depends: 
-    R (>= 3.4.0)
+    R (>= 3.3.0)
 Imports: 
-    httr,
-    jsonlite,
-    curl,
-    purrr,
-    dplyr,
-    attempt
+    httr (>= 1.3.0),
+    jsonlite (>= 1.5),
+    curl (>= 3.2),
+    purrr (>= 2.5),
+    dplyr (>= 0.7.0),
+    attempt (>= 0.2.1)
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.0.1
