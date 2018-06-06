@@ -38,7 +38,7 @@ discogs_release <- function(release_id, mkt_currency=c("GBP", "USD", "EUR", "CAD
   url <- httr::modify_url(base_url, path = path)
 
   # request API for user collection
-  req <- httr::GET(url = url, ua,
+  req <- discogs_get(url = url, ua,
                    httr::add_headers(Authorization=paste0("Discogs token=", access_token))
                    )
 

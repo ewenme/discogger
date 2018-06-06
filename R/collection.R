@@ -31,7 +31,7 @@ discogs_user_collection <- function(user_name, folder_id=0, access_token=discogs
   url <- httr::modify_url(base_url, path = path)
 
   # request API for user collection
-  req <- httr::GET(url = url, ua,
+  req <- discogs_get(url = url, ua,
                    httr::add_headers(Authorization=paste0("Discogs token=", access_token))
                    )
 
@@ -55,7 +55,7 @@ discogs_user_collection <- function(user_name, folder_id=0, access_token=discogs
   collection <- purrr::map(seq_len(pages), function(x){
 
     # request collection page
-    req <- httr::GET(url = paste0(url, "&page=", x), ua,
+    req <- discogs_get(url = paste0(url, "&page=", x), ua,
                      httr::add_headers(Authorization=paste0("Discogs token=", access_token))
                      )
 

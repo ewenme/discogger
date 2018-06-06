@@ -20,6 +20,14 @@ check_type <- function(res){
                        msg = "The API did not return json")
 }
 
+#' @importFrom ratelimitr limit_rate
+#' @importFrom ratelimitr rate
+#' @importFrom httr GET
+discogs_get <- ratelimitr::limit_rate(
+  httr::GET,
+  ratelimitr::rate(n = 60, period = 60)
+)
+
 # global parameters
 base_url <- "https://api.discogs.com/"
 ua <- httr::user_agent("http://github.com/ewenme/discogger")

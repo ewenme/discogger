@@ -28,7 +28,7 @@ discogs_label <- function(label_id, access_token=discogs_api_token()) {
   url <- httr::modify_url(base_url, path = path)
 
   # request API for label
-  req <- httr::GET(url = url, ua,
+  req <- discogs_get(url = url, ua,
                    httr::add_headers(Authorization=paste0("Discogs token=", access_token))
                    )
 
@@ -87,7 +87,7 @@ discogs_label_releases <- function(label_id, access_token=discogs_api_token()) {
   url <- httr::modify_url(base_url, path = path)
 
   # request API for label releases
-  req <- httr::GET(url = url, ua,
+  req <- discogs_get(url = url, ua,
                    httr::add_headers(Authorization=paste0("Discogs token=", access_token))
   )
 
@@ -114,7 +114,7 @@ discogs_label_releases <- function(label_id, access_token=discogs_api_token()) {
   label_discogs <- purrr::map_dfr(seq_len(pages), function(x){
 
     # request label page
-    req <- httr::GET(url = paste0(url, "page=", x), ua,
+    req <- discogs_get(url = paste0(url, "page=", x), ua,
                      httr::add_headers(Authorization=paste0("Discogs token=", access_token))
                      )
 
