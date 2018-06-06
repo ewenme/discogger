@@ -1,7 +1,7 @@
 discogger
 ================
 
-[![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
+[![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental) [![Travis build status](https://travis-ci.org/ewenme/discogger.svg?branch=master)](https://travis-ci.org/ewenme/discogger)
 
 Tools for working with the [Discogs](https://www.discogs.com) API in R.
 
