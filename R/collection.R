@@ -84,14 +84,6 @@ discogs_user_collection <- function(user_name, folder_id=0, access_token=discogs
       path = path,
       response = req
     ),
-    class = "discogs_user_collection"
+    class = "discogs_collection"
   )
-}
-
-print.discogs_user_collection <- function(x, ...) {
-
-  cat("<Discogs ", x$path, ">\n", sep = "")
-  x$content
-  invisible(x)
-
 }

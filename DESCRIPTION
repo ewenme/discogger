@@ -10,7 +10,7 @@ Imports:
     httr (>= 1.3.0),
     jsonlite (>= 1.5),
     curl (>= 3.2),
-    purrr (>= 2.5),
+    purrr (>= 0.2.5),
     dplyr (>= 0.7.0),
     attempt (>= 0.2.1)
 Encoding: UTF-8

@@ -52,17 +52,10 @@ discogs_label <- function(label_id, access_token=discogs_api_token()) {
       path = path,
       response = req
     ),
-    class = "discogs_label"
+    class = "discogs_database"
   )
 }
 
-print.discogs_label <- function(x, ...) {
-
-  cat("<Discogs ", x$path, ">\n", sep = "")
-  str(x$content)
-  invisible(x)
-
-}
 
 #' Get metadata for a Discogs Label's Releases
 #'
@@ -150,14 +143,6 @@ discogs_label_releases <- function(label_id, access_token=discogs_api_token()) {
       path = path,
       response = req
     ),
-    class = "discogs_label_releases"
+    class = "discogs_database"
   )
-}
-
-print.discogs_label_releases <- function(x, ...) {
-
-  cat("<Discogs ", x$path, ">\n", sep = "")
-  str(x$content)
-  invisible(x)
-
 }

@@ -50,17 +50,10 @@ discogs_artist <- function(artist_id, access_token=discogs_api_token()) {
       path = path,
       response = req
     ),
-    class = "discogs_artist"
+    class = "discogs_database"
   )
 }
 
-print.discogs_artist <- function(x, ...) {
-
-  cat("<Discogs ", x$path, ">\n", sep = "")
-  str(x$content)
-  invisible(x)
-
-}
 
 #' Get metadata for a Discogs Artist's Releases
 #'
@@ -145,14 +138,6 @@ discogs_artist_releases <- function(artist_id, access_token=discogs_api_token())
       path = path,
       response = req
     ),
-    class = "discogs_artist_releases"
+    class = "discogs_database"
   )
-}
-
-print.discogs_artist_releases <- function(x, ...) {
-
-  cat("<Discogs ", x$path, ">\n", sep = "")
-  x$content
-  invisible(x)
-
 }

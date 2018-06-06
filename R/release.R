@@ -62,14 +62,6 @@ discogs_release <- function(release_id, mkt_currency=c("GBP", "USD", "EUR", "CAD
       path = path,
       response = req
     ),
-    class = "discogs_release"
+    class = "discogs_database"
   )
 }
-
-print.discogs_release <- function(x, ...) {
-
-  cat("<Discogs ", x$path, ">\n", sep = "")
-  str(x$content)
-  invisible(x)
-
-  }
