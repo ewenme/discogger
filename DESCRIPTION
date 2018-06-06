@@ -1,5 +1,5 @@
 Package: discogger
-Title: Interface for the 'Discogs' API
+Title: Interface to the 'Discogs' API
 Version: 0.0.0.9000
 Authors@R: person("Ewen", "Henderson", email = "ewenhenderson@gmail.com", role = c("aut", "cre"))
 Description: Provides tools to interact with the 'Discogs' API <https://www.discogs.com/developers/#>.
