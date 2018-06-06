@@ -17,7 +17,7 @@ discogs_release(release_id, mkt_currency = c("GBP", "USD", "EUR", "CAD",
 \item{access_token}{Discogs personal access token, defaults to \code{discogs_api_token}.}
 }
 \value{
-a \code{discogs_release} object that contains the extracted content from the request,
+a \code{discogs_database} object that contains the extracted content from the request,
 the original JSON response object and the request path.
 }
 \description{

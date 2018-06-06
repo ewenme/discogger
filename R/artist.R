@@ -7,7 +7,7 @@
 #'
 #' @param access_token Discogs personal access token, defaults to \code{discogs_api_token}.
 #'
-#' @return a \code{discogs_artist} object that contains the extracted content from the request,
+#' @return a \code{discogs_database} object that contains the extracted content from the request,
 #' the original JSON response object and the request path.
 #'
 #' @export
@@ -64,7 +64,7 @@ discogs_artist <- function(artist_id, access_token=discogs_api_token()) {
 #'
 #' @param access_token Discogs personal access token, defaults to \code{discogs_api_token}.
 #'
-#' @return a \code{discogs_artist_releases} object that contains the extracted content from the request,
+#' @return a \code{discogs_database} object that contains the extracted content from the request,
 #' the original JSON response object and the request path.
 #'
 #' @export

@@ -16,7 +16,7 @@ the “All” folder).}
 \item{access_token}{Discogs personal access token, defaults to \code{discogs_api_token}.}
 }
 \value{
-a \code{discogs_user_collection} object that contains the extracted content from the request,
+a \code{discogs_collection} object that contains the extracted content from the request,
 the original JSON response object and the request path.
 }
 \description{
