@@ -4,3 +4,4 @@
 ^README-.*\.png$
 ^CODE_OF_CONDUCT\.md$
 ^\.travis\.yml$
+^LICENSE\.md$

@@ -25,7 +25,7 @@ check_type <- function(res){
 #' @importFrom httr GET
 discogs_get <- ratelimitr::limit_rate(
   httr::GET,
-  ratelimitr::rate(n = 60, period = 60)
+  ratelimitr::rate(n = 1, period = 1)
 )
 
 # global parameters
