@@ -1,5 +1,6 @@
-discogger
-================
+
+discogger <img alt="discogger Logo" title="discogger" align="right" src="man/figures/discogger_logo.png" width="100" style="float:right;width:100px;"/>
+=======================================================================================================================================================
 
 [![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental) [![Travis build status](https://travis-ci.org/ewenme/discogger.svg?branch=master)](https://travis-ci.org/ewenme/discogger)
 
@@ -44,19 +45,20 @@ dm_recs$content %>%
   top_n(10)
 ```
 
-    ## # A tibble: 10 x 2
-    ##    artist          n_releases
-    ##    <chr>                <int>
-    ##  1 Various                 19
-    ##  2 DJ Milton               15
-    ##  3 DJ Deeon                12
-    ##  4 D.J. Funk*              11
-    ##  5 Robert Armani           11
-    ##  6 Jammin Gerald           10
-    ##  7 Paul Johnson            10
-    ##  8 Parris Mitchell          9
-    ##  9 D.J. Slugo*              7
-    ## 10 DJ Funk                  7
+    ## # A tibble: 26 x 2
+    ##    artist                                                       n_releases
+    ##    <chr>                                                             <int>
+    ##  1 Various                                                               4
+    ##  2 The House Master Boyz* And 'The Rude Boy Of House' Farley '…          2
+    ##  3 The House Master Boyz* And The Rude Boy Of House                      2
+    ##  4 Chilly T                                                              1
+    ##  5 Criminal House                                                        1
+    ##  6 Cynthia MT*                                                           1
+    ##  7 D.J. Funk*                                                            1
+    ##  8 Da Posse Featuring Martell                                            1
+    ##  9 Dave Ross Featuring Kitay                                             1
+    ## 10 Duane & Co.                                                           1
+    ## # ... with 16 more rows
 
 Contribute
 ----------
