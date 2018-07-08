@@ -114,7 +114,7 @@ discogs_label_releases <- function(label_id, access_token=discogs_api_token()) {
   label_discogs <- purrr::map_dfr(seq_len(pages), function(x){
 
     # request label page
-    req <- discogs_get(url = paste0(url, "page=", x), ua,
+    req <- discogs_get(url = paste0(url, "page=", 1), ua,
                      httr::add_headers(Authorization=paste0("Discogs token=", access_token))
                      )
 
@@ -127,6 +127,16 @@ discogs_label_releases <- function(label_id, access_token=discogs_api_token()) {
     # extract request content
     data <- jsonlite::fromJSON(httr::content(req, "text", encoding = "UTF-8"),
                                simplifyVector = FALSE)
+
+    data$releases <- map(data$releases, function(x){
+
+      x[["stats"]] <- x[["stats"]][["community"]]
+      x[["in_collection"]] <- x[["stats"]][["in_collection"]]
+      x[["in_wantlist"]] <- x[["stats"]][["in_wantlist"]]
+      x[["stats"]] <- NULL
+      x
+
+    })
 
     # bind releases
     release_info <- dplyr::bind_rows(data$releases)
