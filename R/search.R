@@ -6,14 +6,14 @@ discogs_search <- function(q, n = 100, access_token=discogs_api_token()) {
   # API REQUEST ---------------------------------------
 
   # create path
-  path <- paste0("/database/search?q=", q)
+  path <- glue::glue("/database/search?q={q}")
 
   # base API users URL
   url <- httr::modify_url(base_url, path = path)
 
   # request API for user collection
   req <- httr::GET(url = url, ua,
-                   httr::add_headers(Authorization=paste0("Discogs token=", access_token))
+                   httr::add_headers(Authorization=glue::glue("Discogs token={access_token}"))
   )
 
   # break if artist doesnt exist

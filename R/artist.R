@@ -79,15 +79,15 @@ discogs_artist_releases <- function(artist_id, access_token=discogs_api_token())
   # API REQUEST ---------------------------------------
 
   # create path
-  path <- paste0("artists/", artist_id, "/releases?")
+  path <- glue::glue("artists/{artist_id}/releases?")
 
   # base API users URL
   url <- httr::modify_url(base_url, path = path)
 
   # request API for artist
   req <- discogs_get(url = url, ua,
-                   httr::add_headers(Authorization=paste0("Discogs token=", access_token))
-                   )
+                     httr::add_headers(Authorization=glue::glue("Discogs token={access_token}"))
+                     )
 
   # break if artist doesnt exist
   check_status(req)
@@ -110,8 +110,8 @@ discogs_artist_releases <- function(artist_id, access_token=discogs_api_token())
 
     # request artist page
     req <- discogs_get(url = paste0(url, "page=", x), ua,
-                     httr::add_headers(Authorization=paste0("Discogs token=", access_token))
-                     )
+                       httr::add_headers(Authorization=glue::glue("Discogs token={access_token}"))
+                       )
 
     # break if artist doesnt exist
     httr::stop_for_status(req)

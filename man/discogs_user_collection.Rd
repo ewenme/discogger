@@ -4,7 +4,7 @@
 \alias{discogs_user_collection}
 \title{Get metadata for a Discogs User Collection}
 \usage{
-discogs_user_collection(user_name, folder_id = 0,
+discogs_user_collection(user_name, folder_id = 0, simplify_df = FALSE,
   access_token = discogs_api_token())
 }
 \arguments{
@@ -12,6 +12,8 @@ discogs_user_collection(user_name, folder_id = 0,
 
 \item{folder_id}{The ID of the Collection folder (default value is 0,
 the “All” folder).}
+
+\item{simplify_df}{Coerce list of results into a nested data frame object}
 
 \item{access_token}{Discogs personal access token, defaults to \code{discogs_api_token}.}
 }
