@@ -22,15 +22,15 @@ discogs_label <- function(label_id, access_token=discogs_api_token()) {
   # API REQUEST ---------------------------------------
 
   # create path
-  path <- paste0("labels/", label_id)
+  path <- glue::glue("labels/{label_id}")
 
   # base API users URL
   url <- httr::modify_url(base_url, path = path)
 
   # request API for label
   req <- discogs_get(url = url, ua,
-                   httr::add_headers(Authorization=paste0("Discogs token=", access_token))
-                   )
+                     httr::add_headers(Authorization=glue::glue("Discogs token={access_token}"))
+                     )
 
   # break if artist doesnt exist
   check_status(req)
@@ -81,15 +81,15 @@ discogs_label_releases <- function(label_id, access_token=discogs_api_token()) {
   # API REQUEST ----------------------------------------------
 
   # create path
-  path <- paste0("labels/", label_id, "/releases?")
+  path <- glue::glue("labels/{label_id}/releases?")
 
   # base API users URL
   url <- httr::modify_url(base_url, path = path)
 
   # request API for label releases
   req <- discogs_get(url = url, ua,
-                   httr::add_headers(Authorization=paste0("Discogs token=", access_token))
-  )
+                     httr::add_headers(Authorization=glue::glue("Discogs token={access_token}"))
+                     )
 
   # break if release doesnt exist
   check_status(req)
@@ -114,9 +114,9 @@ discogs_label_releases <- function(label_id, access_token=discogs_api_token()) {
   label_discogs <- purrr::map_dfr(seq_len(pages), function(x){
 
     # request label page
-    req <- discogs_get(url = paste0(url, "page=", 1), ua,
-                     httr::add_headers(Authorization=paste0("Discogs token=", access_token))
-                     )
+    req <- discogs_get(url = glue::glue("{url}page={x}"), ua,
+                       httr::add_headers(Authorization=glue::glue("Discogs token={access_token}"))
+                       )
 
     # break if artist doesnt exist
     httr::stop_for_status(req)

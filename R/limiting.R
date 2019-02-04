@@ -17,7 +17,7 @@ discogs_rate_limit <- function(access_token=discogs_api_token()) {
 
   # hit api
   req <- discogs_get(base_url, ua,
-                   httr::add_headers(Authorization=paste0("Discogs token=", access_token)))
+                   httr::add_headers(Authorization=glue::glue("Discogs token={access_token}")))
 
   # extract headers
   headers <- httr::headers(req)

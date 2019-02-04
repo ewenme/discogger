@@ -32,14 +32,14 @@ discogs_release <- function(release_id, mkt_currency=c("GBP", "USD", "EUR", "CAD
   # API REQUEST ---------------------------------------
 
   # create path
-  path <- paste0("releases/", release_id)
+  path <- glue::glue("releases/{release_id}")
 
   # base API users URL
   url <- httr::modify_url(base_url, path = path)
 
   # request API for user collection
   req <- discogs_get(url = url, ua,
-                   httr::add_headers(Authorization=paste0("Discogs token=", access_token))
+                   httr::add_headers(Authorization=glue::glue("Discogs token={access_token}"))
                    )
 
   # break if release doesnt exist
