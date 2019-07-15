@@ -20,7 +20,7 @@ discogs_api_token <- function(force = FALSE) {
          call. = FALSE)
   }
 
-  message("Couldn't find env var DISCOGS_API_TOKEN See ?discogs_token for more details.")
+  message("Couldn't find env var DISCOGS_API_TOKEN See ?discogs_api_token for more details.")
   message("Please enter your Discogs access token and press enter:")
   pat <- readline(": ")
 
