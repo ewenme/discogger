@@ -14,7 +14,10 @@ Imports:
     dplyr (>= 0.7.0),
     attempt (>= 0.2.1),
     ratelimitr (>= 0.3.9),
-    glue (>= 1.3.0)
+    glue (>= 1.3.0),
+    utils
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.1.1
+URL: https://github.com/ewenme/discogger
+BugReports: https://github.com/ewenme/discogger/issues
