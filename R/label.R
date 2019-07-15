@@ -128,7 +128,7 @@ discogs_label_releases <- function(label_id, access_token=discogs_api_token()) {
     data <- jsonlite::fromJSON(httr::content(req, "text", encoding = "UTF-8"),
                                simplifyVector = FALSE)
 
-    data$releases <- map(data$releases, function(x){
+    data$releases <- purrr::map(data$releases, function(x){
 
       x[["stats"]] <- x[["stats"]][["community"]]
       x[["in_collection"]] <- x[["stats"]][["in_collection"]]
