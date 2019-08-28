@@ -2,12 +2,12 @@
 % Please edit documentation in R/artist.R
 \name{discogs_artist}
 \alias{discogs_artist}
-\title{Get metadata for a Discogs Artist}
+\title{Get metadata for a Discogs artist}
 \usage{
 discogs_artist(artist_id, access_token = discogs_api_token())
 }
 \arguments{
-\item{artist_id}{The ID of the Artist.}
+\item{artist_id}{The ID of the artist.}
 
 \item{access_token}{Discogs personal access token, defaults to \code{discogs_api_token}.}
 }
@@ -16,7 +16,7 @@ a \code{discogs_database} object that contains the extracted content from the re
 the original JSON response object and the request path.
 }
 \description{
-Return metadata for an Artist (a person who contributed
+Return metadata for an artist (a person who contributed
 to a Release, in some capacity) listed on Discogs.
 }
 \examples{

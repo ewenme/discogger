@@ -10,6 +10,15 @@
 
 Provides tools to interact with the 'Discogs' API <https://www.discogs.com/developers/#>.
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://ewenme.github.io/discogger}
+  \item \url{https://github.com/ewenme/discogger}
+  \item Report bugs at \url{https://github.com/ewenme/discogger/issues}
+}
+
+}
 \author{
 \strong{Maintainer}: Ewen Henderson \email{ewenhenderson@gmail.com}
 

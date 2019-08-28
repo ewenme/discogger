@@ -72,15 +72,12 @@ discogs_label <- function(label_id, access_token=discogs_api_token()) {
 #' @examples \dontrun{
 #' discogs_label_releases(label_id = 314)
 #' }
-discogs_label_releases <- function(label_id, access_token=discogs_api_token()) {
+discogs_label_releases <- function(label_id, access_token = discogs_api_token()) {
 
-  # check for internet
   check_internet()
 
-  # create path
   path <- glue("labels/{label_id}/releases?")
 
-  # base API users URL
   url <- modify_url(base_url, path = path)
 
   # request API for label releases
@@ -90,10 +87,7 @@ discogs_label_releases <- function(label_id, access_token=discogs_api_token()) {
                 )
     )
 
-  # break if release doesnt exist
   check_status(req)
-
-  # break if object isnt json
   check_type(req)
 
   # extract request content
@@ -115,30 +109,16 @@ discogs_label_releases <- function(label_id, access_token=discogs_api_token()) {
                   )
       )
 
-    # break if artist doesnt exist
     stop_for_status(req)
-
-    # break if object isnt json
     check_type(req)
 
     # extract request content
     data <- fromJSON(
       content(req, "text", encoding = "UTF-8"),
-      simplifyVector = FALSE
+      simplifyVector = TRUE, flatten = TRUE
       )
 
-    data$releases <- map(data$releases, function(x){
-
-      x[["stats"]] <- x[["stats"]][["community"]]
-      x[["in_collection"]] <- x[["stats"]][["in_collection"]]
-      x[["in_wantlist"]] <- x[["stats"]][["in_wantlist"]]
-      x[["stats"]] <- NULL
-      x
-
-    })
-
-    # bind releases
-    release_info <- bind_rows(data$releases)
+    rbind.data.frame(data$releases)
 
   })
 

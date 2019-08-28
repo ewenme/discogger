@@ -98,7 +98,7 @@ discogs_user_collection <- function(user_name, folder_id = 0, simplify_df = FALS
 
   } else {
 
-    collection <- unlist(collection, recursive = F)
+    collection <- unlist(collection, recursive = FALSE)
 
     }
 

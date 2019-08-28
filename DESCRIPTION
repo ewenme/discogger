@@ -4,6 +4,8 @@ Version: 0.0.0.9000
 Authors@R: person("Ewen", "Henderson", email = "ewenhenderson@gmail.com", role = c("aut", "cre"))
 Description: Provides tools to interact with the 'Discogs' API <https://www.discogs.com/developers/#>.
 License: MIT + file LICENSE
+URL: https://ewenme.github.io/discogger, https://github.com/ewenme/discogger
+BugReports: https://github.com/ewenme/discogger/issues
 Depends: 
     R (>= 3.3.0)
 Imports: 
@@ -11,7 +13,6 @@ Imports:
     jsonlite (>= 1.5),
     curl (>= 3.2),
     purrr (>= 0.2.5),
-    dplyr (>= 0.7.0),
     attempt (>= 0.2.1),
     ratelimitr (>= 0.3.9),
     glue (>= 1.3.0)

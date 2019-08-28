@@ -31,8 +31,6 @@ discogs_search <- function(params, n = 100, access_token=discogs_api_token()) {
   # break if object isnt json
   check_type(req)
 
-  # EXTRACT DATA --------------------------------------
-
   # extract request content
   data <- fromJSON(
     content(req, "text", encoding = "UTF-8"),
