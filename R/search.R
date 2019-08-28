@@ -1,9 +1,25 @@
-discogs_search <- function(params, n = 100, access_token=discogs_api_token()) {
+#' Search Discogs database
+#'
+#' Issue a search query to the Discogs database using any number of
+#' (optional) parameters.
+#'
+#' @param params named list of parameters
+#' (see \href{https://www.discogs.com/developers/#page:database,header:database-search}{SEARCH API docs}
+#' for available parameters)
+#' @param n_results (optional) set numeric limit on no. of results (NULL by default)
+#' @inheritParams discogs_artist
+#'
+#' @examples \dontrun{
+#' discogs_search(params = list(release_title = "Purple Rain",
+#' artist = "Prince"))
+#' }
+#'
+#' @keywords internal
 
-  # check for internet
+discogs_search <- function(params, n_results = NULL,
+                           access_token = discogs_api_token()) {
+
   check_internet()
-
-  # ensure params passed as a list
   stopifnot(is.list(params))
 
   # turn param list into a string
@@ -12,10 +28,8 @@ discogs_search <- function(params, n = 100, access_token=discogs_api_token()) {
   # collapse
   param_string <- paste(param_string, collapse = "&")
 
-  # construct path
-  path <- paste0("/database/search?", param_string)
+  path <- glue("/database/search?{param_string}")
 
-  # base API users URL
   url <- modify_url(base_url, path = path)
 
   # request API for user collection
@@ -25,10 +39,7 @@ discogs_search <- function(params, n = 100, access_token=discogs_api_token()) {
                 )
     )
 
-  # break if artist doesnt exist
   check_status(req)
-
-  # break if object isnt json
   check_type(req)
 
   # extract request content
@@ -37,12 +48,37 @@ discogs_search <- function(params, n = 100, access_token=discogs_api_token()) {
     simplifyVector = FALSE
     )
 
-  data
+  # how many pages?
+  pages <- data$pagination$pages
 
-  # how many pages returned?
-  # pages <- data$pagination$pages
+  search_discogs <- lapply(seq_len(pages), function(x){
 
-  # how many items
+    # request artist page
+    req <- discogs_get(
+      url = paste0(url, "&page=", x), ua,
+      add_headers(Authorization = glue("Discogs token={access_token}")
+      )
+    )
 
+    stop_for_status(req)
+    check_type(req)
+
+    # extract request content
+    fromJSON(
+      content(req, "text", encoding = "UTF-8"),
+      simplifyVector = FALSE
+    )
+
+  })
+
+  # create s3 object
+  structure(
+    list(
+      content = search_discogs,
+      path = path,
+      response = req
+    ),
+    class = "discogs_database"
+  )
 
 }

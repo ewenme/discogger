@@ -4,8 +4,7 @@
 #' or other entity involved with Artists and Releases) listed on Discogs.
 #'
 #' @param label_id The ID of the Label.
-#'
-#' @param access_token Discogs personal access token, defaults to \code{discogs_api_token}.
+#' @inheritParams discogs_artist
 #'
 #' @return a \code{discogs_database} object that contains the extracted content from the request,
 #' the original JSON response object and the request path.
@@ -61,9 +60,8 @@ discogs_label <- function(label_id, access_token=discogs_api_token()) {
 #' Return tidy metadata for a Label's (a label, company, recording studio, location,
 #' or other entity involved with Artists and Releases) Releases listed on Discogs.
 #'
-#' @param label_id The ID of the Label.
-#'
-#' @param access_token Discogs personal access token, defaults to \code{discogs_api_token}.
+#' @inheritParams discogs_label
+#' @inheritParams discogs_artist
 #'
 #' @return a \code{discogs_database} object that contains the extracted content from the request,
 #' the original JSON response object and the request path.

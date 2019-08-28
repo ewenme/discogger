@@ -5,7 +5,7 @@
 #' average over a 60 second window. If no requests are made in 60 seconds, your window will reset.
 #' For more information, check the \href{https://www.discogs.com/developers/#page:home,header:home-rate-limiting}{rate limiting API documentation}
 #'
-#' @param access_token Discogs personal access token, defaults to \code{discogs_api_token}.
+#' @inheritParams discogs_artist
 #'
 #' @return None (invisible NULL)
 #'

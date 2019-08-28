@@ -4,7 +4,6 @@
 #' to a Release, in some capacity) listed on Discogs.
 #'
 #' @param artist_id The ID of the artist.
-#'
 #' @param access_token Discogs personal access token, defaults to \code{discogs_api_token}.
 #'
 #' @return a \code{discogs_database} object that contains the extracted content from the request,
@@ -54,9 +53,7 @@ discogs_artist <- function(artist_id, access_token = discogs_api_token()) {
 #' Return tidy metadata for an artist's (a person who contributed
 #' to a Release, in some capacity) releases listed on Discogs.
 #'
-#' @param artist_id The ID of the artist.
-#'
-#' @param access_token Discogs personal access token, defaults to \code{discogs_api_token}.
+#' @inheritParams discogs_artist
 #'
 #' @return a \code{discogs_database} object that contains the extracted content from the request,
 #' the original JSON response object and the request path.

@@ -3,13 +3,10 @@
 #' Return metadata for releases in a Discogs User Collection.
 #'
 #' @param user_name The username of the Collection you are trying to request.
-#'
 #' @param folder_id The ID of the Collection folder (default value is 0,
 #' the “All” folder).
-#'
 #' @param simplify_df Coerce list of results into a nested data frame object
-#'
-#' @param access_token Discogs personal access token, defaults to \code{discogs_api_token}.
+#' @inheritParams discogs_artist
 #'
 #' @return a \code{discogs_collection} object that contains the extracted content from the request,
 #' the original JSON response object and the request path.

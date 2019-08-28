@@ -4,11 +4,9 @@
 #' released by one or more Artists) listed on Discogs.
 #'
 #' @param release_id The ID of the Release.
-#'
 #' @param mkt_currency Currency for marketplace data. Defaults to GBP (must be one of:
 #'  "GBP", "USD", "EUR", "CAD", "AUD", "JPY", "CHF", "MXN", "BRL", "NZD", "SEK", "ZAR").
-#'
-#' @param access_token Discogs personal access token, defaults to \code{discogs_api_token}.
+#' @inheritParams discogs_artist
 #'
 #' @return a \code{discogs_database} object that contains the extracted content from the request,
 #' the original JSON response object and the request path.
