@@ -11,7 +11,6 @@ print.discogs_database <- function(x, ...) {
 
 }
 
-
 #' Slightly more human-readable output for discogs_collection objects
 #'
 #' @param x a discogs_collection object

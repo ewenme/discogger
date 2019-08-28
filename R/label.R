@@ -19,18 +19,18 @@ discogs_label <- function(label_id, access_token=discogs_api_token()) {
   # check for internet
   check_internet()
 
-  # API REQUEST ---------------------------------------
-
   # create path
-  path <- glue::glue("labels/{label_id}")
+  path <- glue("labels/{label_id}")
 
   # base API users URL
-  url <- httr::modify_url(base_url, path = path)
+  url <- modify_url(base_url, path = path)
 
   # request API for label
-  req <- discogs_get(url = url, ua,
-                     httr::add_headers(Authorization=glue::glue("Discogs token={access_token}"))
-                     )
+  req <- discogs_get(
+    url = url, ua,
+    add_headers(Authorization = glue("Discogs token={access_token}")
+                )
+    )
 
   # break if artist doesnt exist
   check_status(req)
@@ -38,12 +38,11 @@ discogs_label <- function(label_id, access_token=discogs_api_token()) {
   # break if object isnt json
   check_type(req)
 
-
-  # EXTRACT DATA ---------------------------------------
-
   # extract request content
-  data <- jsonlite::fromJSON(httr::content(req, "text", encoding = "UTF-8"),
-                             simplifyVector = FALSE)
+  data <- fromJSON(
+    content(req, "text", encoding = "UTF-8"),
+    simplifyVector = FALSE
+    )
 
   # create s3 object
   structure(
@@ -78,18 +77,18 @@ discogs_label_releases <- function(label_id, access_token=discogs_api_token()) {
   # check for internet
   check_internet()
 
-  # API REQUEST ----------------------------------------------
-
   # create path
-  path <- glue::glue("labels/{label_id}/releases?")
+  path <- glue("labels/{label_id}/releases?")
 
   # base API users URL
-  url <- httr::modify_url(base_url, path = path)
+  url <- modify_url(base_url, path = path)
 
   # request API for label releases
-  req <- discogs_get(url = url, ua,
-                     httr::add_headers(Authorization=glue::glue("Discogs token={access_token}"))
-                     )
+  req <- discogs_get(
+    url = url, ua,
+    add_headers(Authorization = glue("Discogs token={access_token}")
+                )
+    )
 
   # break if release doesnt exist
   check_status(req)
@@ -97,36 +96,36 @@ discogs_label_releases <- function(label_id, access_token=discogs_api_token()) {
   # break if object isnt json
   check_type(req)
 
-
-  # EXTRACT DATA --------------------------------------
-
   # extract request content
-  data <- jsonlite::fromJSON(httr::content(req, "text", encoding = "UTF-8"),
-                             simplifyVector = FALSE)
+  data <- fromJSON(
+    content(req, "text", encoding = "UTF-8"),
+    simplifyVector = FALSE
+    )
 
   # how many pages?
   pages <- data$pagination$pages
 
-
-  # ITERATION -----------------------------------
-
   # iterate through pages
-  label_discogs <- purrr::map_dfr(seq_len(pages), function(x){
+  label_discogs <- map_dfr(seq_len(pages), function(x){
 
     # request label page
-    req <- discogs_get(url = glue::glue("{url}page={x}"), ua,
-                       httr::add_headers(Authorization=glue::glue("Discogs token={access_token}"))
-                       )
+    req <- discogs_get(
+      url = glue("{url}page={x}"), ua,
+      add_headers(Authorization = glue("Discogs token={access_token}")
+                  )
+      )
 
     # break if artist doesnt exist
-    httr::stop_for_status(req)
+    stop_for_status(req)
 
     # break if object isnt json
     check_type(req)
 
     # extract request content
-    data <- jsonlite::fromJSON(httr::content(req, "text", encoding = "UTF-8"),
-                               simplifyVector = FALSE)
+    data <- fromJSON(
+      content(req, "text", encoding = "UTF-8"),
+      simplifyVector = FALSE
+      )
 
     data$releases <- map(data$releases, function(x){
 
@@ -139,7 +138,7 @@ discogs_label_releases <- function(label_id, access_token=discogs_api_token()) {
     })
 
     # bind releases
-    release_info <- dplyr::bind_rows(data$releases)
+    release_info <- bind_rows(data$releases)
 
   })
 
