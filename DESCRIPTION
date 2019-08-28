@@ -9,13 +9,12 @@ BugReports: https://github.com/ewenme/discogger/issues
 Depends: 
     R (>= 3.3.0)
 Imports: 
+    attempt (>= 0.2.1),
+    curl (>= 3.2),
+    glue (>= 1.3.0),
     httr (>= 1.3.0),
     jsonlite (>= 1.5),
-    curl (>= 3.2),
-    purrr (>= 0.2.5),
-    attempt (>= 0.2.1),
-    ratelimitr (>= 0.3.9),
-    glue (>= 1.3.0)
+    ratelimitr (>= 0.3.9)
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.1.1

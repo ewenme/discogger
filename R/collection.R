@@ -55,7 +55,7 @@ discogs_user_collection <- function(user_name, folder_id = 0, simplify_df = FALS
   pages <- data$pagination$pages
 
   # iterate through pages of collection
-  collection <- map(seq_len(pages), function(x){
+  collection <- lapply(seq_len(pages), function(x){
 
     # request collection page
     req <- discogs_get(
@@ -94,7 +94,9 @@ discogs_user_collection <- function(user_name, folder_id = 0, simplify_df = FALS
   # combine pages
   if (simplify_df) {
 
-    collection <- map_dfr(collection, flatten)
+    collection <- lapply(collection, flatten)
+
+    collection <- do.call("rbind", collection)
 
   } else {
 

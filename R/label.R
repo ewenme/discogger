@@ -100,7 +100,7 @@ discogs_label_releases <- function(label_id, access_token = discogs_api_token())
   pages <- data$pagination$pages
 
   # iterate through pages
-  label_discogs <- map_dfr(seq_len(pages), function(x){
+  label_discogs <- lapply(seq_len(pages), function(x){
 
     # request label page
     req <- discogs_get(
@@ -121,6 +121,8 @@ discogs_label_releases <- function(label_id, access_token = discogs_api_token())
     rbind.data.frame(data$releases)
 
   })
+
+  label_discogs <- do.call("rbind", label_discogs)
 
   # add artist id
   label_discogs$label_id <- label_id
