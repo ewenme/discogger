@@ -14,6 +14,7 @@
 #' @export
 #' @examples \dontrun{
 #' discogs_user_collection(user_name = "rodneyfool")
+#' discogs_user_collection(user_name = "rodneyfool", simplify_df = TRUE)
 #' }
 discogs_user_collection <- function(user_name, folder_id = 0, simplify_df = FALSE,
                                     access_token = discogs_api_token()) {
@@ -72,7 +73,7 @@ discogs_user_collection <- function(user_name, folder_id = 0, simplify_df = FALS
 
       data <- fromJSON(
         content(req, "text", encoding = "UTF-8"),
-        simplifyDataFrame = TRUE
+        simplifyVector = TRUE, flatten = TRUE
         )
 
     } else {
@@ -91,9 +92,7 @@ discogs_user_collection <- function(user_name, folder_id = 0, simplify_df = FALS
   # combine pages
   if (simplify_df) {
 
-    collection <- lapply(collection, flatten)
-
-    collection <- do.call("rbind", collection)
+    collection <- bind_rows(collection)
 
   } else {
 

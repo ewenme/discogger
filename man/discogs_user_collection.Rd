@@ -27,5 +27,6 @@ Return metadata for releases in a Discogs User Collection.
 \examples{
 \dontrun{
 discogs_user_collection(user_name = "rodneyfool")
+discogs_user_collection(user_name = "rodneyfool", simplify_df = TRUE)
 }
 }

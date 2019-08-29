@@ -42,10 +42,7 @@ discogs_release <- function(release_id,
                 )
     )
 
-  # break if release doesnt exist
   check_status(req)
-
-  # break if object isnt json
   check_type(req)
 
   # extract request content

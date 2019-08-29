@@ -1,5 +1,6 @@
 #' @importFrom httr modify_url content add_headers stop_for_status headers GET status_code http_type user_agent
 #' @importFrom jsonlite fromJSON flatten
+#' @importFrom dplyr bind_rows
 #' @importFrom glue glue
 #' @importFrom attempt stop_if_not
 #' @importFrom curl has_internet

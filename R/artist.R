@@ -109,11 +109,11 @@ discogs_artist_releases <- function(artist_id, access_token = discogs_api_token(
       )
 
     # bind releases
-    rbind.data.frame(data$releases)
+    bind_rows(data$releases)
 
     })
 
-  artist_discogs <- do.call("rbind", artist_discogs)
+  artist_discogs <- bind_rows(artist_discogs)
 
   artist_discogs$artist_id <- artist_id
 

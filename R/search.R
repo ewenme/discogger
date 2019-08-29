@@ -6,12 +6,12 @@
 #' @param params named list of parameters
 #' (see \href{https://www.discogs.com/developers/#page:database,header:database-search}{SEARCH API docs}
 #' for available parameters)
-#' @param n_results (optional) set numeric limit on no. of results (NULL by default)
+#' @param n_results (optional) set limit on no. of results (numeric; NULL by default)
 #' @inheritParams discogs_artist
 #'
 #' @examples \dontrun{
 #' discogs_search(params = list(release_title = "Purple Rain",
-#' artist = "Prince"))
+#' artist = "Prince"), n_results = 10)
 #' }
 #'
 #' @keywords internal
@@ -51,6 +51,16 @@ discogs_search <- function(params, n_results = NULL,
   # how many pages?
   pages <- data$pagination$pages
 
+  # limit pages returned if results limit set
+  if (is.numeric(n_results)) {
+
+    pages_limit <- ceiling(n_results / 50)
+
+    if (pages_limit > pages) pages_limit <- pages
+
+    pages <- pages_limit
+  }
+
   search_discogs <- lapply(seq_len(pages), function(x){
 
     # request artist page
@@ -64,12 +74,21 @@ discogs_search <- function(params, n_results = NULL,
     check_type(req)
 
     # extract request content
-    fromJSON(
+    data <- fromJSON(
       content(req, "text", encoding = "UTF-8"),
-      simplifyVector = FALSE
+      simplifyVector = TRUE, flatten = TRUE
     )
 
+    bind_rows(data$results)
+
   })
+
+  search_discogs <- bind_rows(search_discogs)
+
+  # limit result set
+  if (is.numeric(n_results)) {
+    search_discogs <- search_discogs[1:n_results, ]
+  }
 
   # create s3 object
   structure(

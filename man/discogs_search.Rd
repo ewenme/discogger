@@ -12,7 +12,7 @@ discogs_search(params, n_results = NULL,
 (see \href{https://www.discogs.com/developers/#page:database,header:database-search}{SEARCH API docs}
 for available parameters)}
 
-\item{n_results}{(optional) set numeric limit on no. of results (NULL by default)}
+\item{n_results}{(optional) set limit on no. of results (numeric; NULL by default)}
 
 \item{access_token}{Discogs personal access token, defaults to \code{discogs_api_token}.}
 }

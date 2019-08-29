@@ -6,7 +6,12 @@
 print.discogs_database <- function(x, ...) {
 
   cat("<Discogs ", x$path, ">\n", sep = "")
-  utils::str(x$content)
+  if (is.data.frame(x$content)) {
+    cat("Preview: 1 of", nrow(x$content), "results.", "\n", sep=" ")
+  } else if (is.list(x$content)) {
+    cat("Preview: 1 of", length(x$content), "results.", "\n", sep=" ")
+  }
+  utils::str(utils::head(x$content, 1))
   invisible(x)
 
 }
@@ -19,7 +24,11 @@ print.discogs_database <- function(x, ...) {
 print.discogs_collection <- function(x, ...) {
 
   cat("<Discogs ", x$path, ">\n", sep = "")
-  cat("Preview: 1 of", length(x$content), "records.", "\n", sep=" ")
+  if (is.data.frame(x$content)) {
+    cat("Preview: 1 of", nrow(x$content), "records.", "\n", sep=" ")
+  } else if (is.list(x$content)) {
+    cat("Preview: 1 of", length(x$content), "records.", "\n", sep=" ")
+  }
   utils::str(utils::head(x$content, 1))
   invisible(x)
 

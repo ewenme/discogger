@@ -31,10 +31,7 @@ discogs_label <- function(label_id, access_token=discogs_api_token()) {
                 )
     )
 
-  # break if artist doesnt exist
   check_status(req)
-
-  # break if object isnt json
   check_type(req)
 
   # extract request content
@@ -116,11 +113,11 @@ discogs_label_releases <- function(label_id, access_token = discogs_api_token())
       simplifyVector = TRUE, flatten = TRUE
       )
 
-    rbind.data.frame(data$releases)
+    bind_rows(data$releases)
 
   })
 
-  label_discogs <- do.call("rbind", label_discogs)
+  label_discogs <- bind_rows(label_discogs)
 
   # add artist id
   label_discogs$label_id <- label_id
