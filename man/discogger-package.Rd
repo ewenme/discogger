@@ -20,7 +20,7 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Ewen Henderson \email{ewenhenderson@gmail.com}
+\strong{Maintainer}: Ewen Henderson \email{ewenhenderson@gmail.com} (0000-0002-4748-4693)
 
 }
 \keyword{internal}

@@ -1,0 +1,45 @@
+destination: docs
+
+url: https://ewenme.github.io/discogger
+
+template:
+  params:
+    bootswatch: united
+
+home:
+  strip_header: true
+
+authors:
+  Ewen Henderson:
+    href: https://ewen.io
+navbar:
+  type: inverse
+  left:
+    - text: "Reference"
+      href: reference/index.html
+  right:
+  - icon: fa-github fa-lg
+    href: https://github.com/ewenme/discogger
+
+reference:
+  - title: "Artist data"
+    desc: "Functions for working with Discogs artist data."
+    contents:
+      - starts_with("discogs_artist")
+  - title: "Label data"
+    desc: "Functions for working with Discogs label data."
+    contents:
+      - starts_with("discogs_label")
+  - title: "Release data"
+    desc: "Functions for working with Discogs release data."
+    contents:
+      - starts_with("discogs_release")
+  - title: "User collection data"
+    desc: "Functions for searching Discogs data."
+    contents:
+      - starts_with("discogs_search")
+  - title: "Other helpers"
+    contents:
+      - discogs_api_token
+      - discogs_rate_limit
+      - fpl_get_stats_lookup

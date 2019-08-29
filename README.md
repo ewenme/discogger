@@ -5,6 +5,8 @@
 [![Travis build
 status](https://travis-ci.org/ewenme/discogger.svg?branch=master)](https://travis-ci.org/ewenme/discogger)
 
+## Overview
+
 Tools for working with the [Discogs](https://www.discogs.com) API in R.
 
 Discogs Developers Site: <https://www.discogs.com/developers>

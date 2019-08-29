@@ -1,7 +1,9 @@
 Package: discogger
 Title: Interface to the 'Discogs' API
 Version: 0.0.0.9000
-Authors@R: person("Ewen", "Henderson", email = "ewenhenderson@gmail.com", role = c("aut", "cre"))
+Authors@R: 
+    person("Ewen", "Henderson", email = "ewenhenderson@gmail.com", role = c("aut", "cre"),
+    comment = c(ORCID = "0000-0002-4748-4693"))
 Description: Provides tools to interact with the 'Discogs' API <https://www.discogs.com/developers/#>.
 License: MIT + file LICENSE
 URL: https://ewenme.github.io/discogger, https://github.com/ewenme/discogger

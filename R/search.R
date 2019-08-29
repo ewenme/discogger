@@ -14,7 +14,7 @@
 #' artist = "Prince"), n_results = 10)
 #' }
 #'
-#' @keywords internal
+#' @export
 
 discogs_search <- function(params, n_results = NULL,
                            access_token = discogs_api_token()) {

@@ -27,4 +27,3 @@ artist = "Prince"), n_results = 10)
 }
 
 }
-\keyword{internal}
