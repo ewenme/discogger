@@ -1,9 +1,9 @@
-#' Get metadata for a Discogs User Collection
+#' Get metadata for a Discogs user collection
 #'
-#' Return metadata for releases in a Discogs User Collection.
+#' Return metadata for releases in a Discogs user collection.
 #'
-#' @param user_name The username of the Collection you are trying to request.
-#' @param folder_id The ID of the Collection folder (default value is 0,
+#' @param user_name The username of the collection you are trying to request.
+#' @param folder_id The ID of the collection folder (default value is 0,
 #' the “All” folder).
 #' @param simplify_df Coerce list of results into a nested data frame object
 #' @inheritParams discogs_artist

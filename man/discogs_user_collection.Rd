@@ -2,15 +2,15 @@
 % Please edit documentation in R/collection.R
 \name{discogs_user_collection}
 \alias{discogs_user_collection}
-\title{Get metadata for a Discogs User Collection}
+\title{Get metadata for a Discogs user collection}
 \usage{
 discogs_user_collection(user_name, folder_id = 0, simplify_df = FALSE,
   access_token = discogs_api_token())
 }
 \arguments{
-\item{user_name}{The username of the Collection you are trying to request.}
+\item{user_name}{The username of the collection you are trying to request.}
 
-\item{folder_id}{The ID of the Collection folder (default value is 0,
+\item{folder_id}{The ID of the collection folder (default value is 0,
 the “All” folder).}
 
 \item{simplify_df}{Coerce list of results into a nested data frame object}
@@ -22,7 +22,7 @@ a \code{discogs_collection} object that contains the extracted content from the 
 the original JSON response object and the request path.
 }
 \description{
-Return metadata for releases in a Discogs User Collection.
+Return metadata for releases in a Discogs user collection.
 }
 \examples{
 \dontrun{

@@ -2,7 +2,7 @@
 % Please edit documentation in R/release.R
 \name{discogs_release}
 \alias{discogs_release}
-\title{Get metadata for a Discogs Release}
+\title{Get metadata for a Discogs release}
 \usage{
 discogs_release(release_id, mkt_currency = c("GBP", "USD", "EUR", "CAD",
   "AUD", "JPY", "CHF", "MXN", "BRL", "NZD", "SEK", "ZAR"),
@@ -21,8 +21,8 @@ a \code{discogs_database} object that contains the extracted content from the re
 the original JSON response object and the request path.
 }
 \description{
-Return metadata for a Release (a particular physical or digital object
-released by one or more Artists) listed on Discogs.
+Return metadata for a release (a particular physical or digital object
+released by one or more artists) listed on Discogs.
 }
 \examples{
 \dontrun{

@@ -2,7 +2,7 @@
 % Please edit documentation in R/label.R
 \name{discogs_label}
 \alias{discogs_label}
-\title{Get metadata for a Discogs Label}
+\title{Get metadata for a Discogs label}
 \usage{
 discogs_label(label_id, access_token = discogs_api_token())
 }
@@ -16,8 +16,8 @@ a \code{discogs_database} object that contains the extracted content from the re
 the original JSON response object and the request path.
 }
 \description{
-Return metadata for a Label (a label, company, recording studio, location,
-or other entity involved with Artists and Releases) listed on Discogs.
+Return metadata for a label (a label, company, recording studio, location,
+or other entity involved with artists and releases) listed on Discogs.
 }
 \examples{
 \dontrun{

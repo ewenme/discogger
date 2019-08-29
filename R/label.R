@@ -1,7 +1,7 @@
-#' Get metadata for a Discogs Label
+#' Get metadata for a Discogs label
 #'
-#' Return metadata for a Label (a label, company, recording studio, location,
-#' or other entity involved with Artists and Releases) listed on Discogs.
+#' Return metadata for a label (a label, company, recording studio, location,
+#' or other entity involved with artists and releases) listed on Discogs.
 #'
 #' @param label_id The ID of the Label.
 #' @inheritParams discogs_artist
@@ -52,10 +52,10 @@ discogs_label <- function(label_id, access_token=discogs_api_token()) {
 }
 
 
-#' Get metadata for a Discogs Label's Releases
+#' Get metadata for a Discogs label's releases
 #'
-#' Return tidy metadata for a Label's (a label, company, recording studio, location,
-#' or other entity involved with Artists and Releases) Releases listed on Discogs.
+#' Return tidy metadata for a label's (a label, company, recording studio, location,
+#' or other entity involved with artists and releases) releases listed on Discogs.
 #'
 #' @inheritParams discogs_label
 #' @inheritParams discogs_artist

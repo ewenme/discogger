@@ -23,7 +23,7 @@ Issue a search query to the Discogs database using any number of
 \examples{
 \dontrun{
 discogs_search(params = list(release_title = "Purple Rain",
-artist = "Prince"))
+artist = "Prince"), n_results = 10)
 }
 
 }
