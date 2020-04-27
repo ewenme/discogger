@@ -10,9 +10,9 @@
 #'
 #' @export
 #' @examples \dontrun{
-#' discogs_marketplace_price_suggestions(release_id = 240007)
+#' discogs_mkt_price_suggest(release_id = 240007)
 #' }
-discogs_marketplace_price_suggestions <- function(release_id,
+discogs_mkt_price_suggest <- function(release_id,
                                                   access_token = discogs_api_token()) {
 
   # check for internet
